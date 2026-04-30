@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>초록들판항공 | 예약자 명단 관리</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
+    <style>
+        :root {
+            --primary: #22c55e;
+            --primary-dark: #16a34a;
+            --bg-dark: #020617;
+            --card-bg: #0f172a;
+            --text-white: #f8fafc;
+            --text-gray: #94a3b8;
+            --border: #1e293b;
+            --danger: #ef4444;
+        }
+
+        * {
+            box-sizing: border-box;
+            font-family: 'Pretendard', sans-serif;
+        }
+
+        body {
+            margin: 0;
+            background: var(--bg-dark);
+            color: var(--text-white);
+            padding: 40px 5%;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border);
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .header h1 {
+            margin: 0;
+            color: var(--primary);
+            font-size: 1.8rem;
+        }
+
+        .btn-home {
+            color: var(--text-gray);
+            text-decoration: none;
+            padding: 10px 20px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            transition: 0.3s;
+        }
+
+        .btn-home:hover {
+            color: white;
+            border-color: white;
+        }
+
+        .btn-clear {
+            background: var(--danger);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-clear:hover {
+            background: #dc2626;
+        }
+
+        .btn-download {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-download:hover {
+            background: var(--primary-dark);
+        }
+
+        .table-container {
+            background: var(--card-bg);
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        th,
+        td {
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-gray);
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover td {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 50px;
+            color: var(--text-gray);
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            opacity: 0.5;
+        }
+
+        .interest-badge {
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            border: 1px solid var(--border);
+            white-space: nowrap;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+        <h1><i class="fas fa-clipboard-list"></i> 예약자 명단 (관리자)</h1>
+        <div style="display: flex; gap: 10px;">
+            <button class="btn-download" onclick="downloadCSV()"><i class="fas fa-file-csv"></i> 엑셀(CSV) 다운로드</button>
+            <button class="btn-clear" onclick="clearReservations()"><i class="fas fa-trash"></i> 전체 삭제</button>
+            <a href="index.html" class="btn-home"><i class="fas fa-home"></i> 홈으로</a>
+        </div>
+    </div>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>예약 날짜/시간</th>
+                    <th>이름/회사명</th>
+                    <th>연락처</th>
+                    <th>관심 분야</th>
+                    <th>문의 내용</th>
+                    <th>접수일시</th>
+                    <th>관리</th>
+                </tr>
+            </thead>
+            <tbody id="reservationList">
+                <!-- Javascript로 렌더링 -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        const interestMap = {
+            'buy': '기체 구매',
+            'edu': '조종 교육',
+            'as': '수리 및 A/S',
+            'other': '기타 문의',
+            '': '미선택'
+        };
+
+        function loadReservations() {
+            const list = document.getElementById('reservationList');
+            const reservations = JSON.parse(localStorage.getItem('reservations')) || [];
+
+            if (reservations.length === 0) {
+                list.innerHTML = `<tr><td colspan="7">
+                    <div class="empty-state">
+                        <i class="fas fa-inbox"></i>
+                        <p>아직 접수된 예약 내역이 없습니다.</p>
+                    </div>
+                </td></tr>`;
+                return;
+            }
+
+            // 최신 예약이 위로 오도록 정렬
+            reservations.sort((a, b) => b.id - a.id);
+
+            list.innerHTML = reservations.map(r => `
+                <tr>
+                    <td><strong style="color:var(--primary)">${r.date}</strong><br>${r.time}</td>
+                    <td>${r.name}</td>
+                    <td><a href="tel:${r.phone}" style="color: var(--text-white); text-decoration: none;">${r.phone}</a></td>
+                    <td><span class="interest-badge">${interestMap[r.interest] || r.interest}</span></td>
+                    <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="${r.memo}">${r.memo || '-'}</td>
+                    <td style="color: var(--text-gray); font-size: 0.9rem;">${r.timestamp}</td>
+                    <td><button onclick="deleteReservation(${r.id})" style="background:transparent; border:none; color:var(--danger); cursor:pointer; font-size: 1.2rem;" title="삭제"><i class="fas fa-times"></i></button></td>
+                </tr>
+            `).join('');
+        }
+
+        function clearReservations() {
+            if (confirm('정말 모든 예약 내역을 삭제하시겠습니까? (복구 불가)')) {
+                localStorage.removeItem('reservations');
+                loadReservations();
+            }
+        }
+
+        function deleteReservation(id) {
+            if (confirm('이 예약 내역을 삭제하시겠습니까?')) {
+                let reservations = JSON.parse(localStorage.getItem('reservations')) || [];
+                reservations = reservations.filter(r => r.id !== id);
+                localStorage.setItem('reservations', JSON.stringify(reservations));
+                loadReservations();
+            }
+        }
+
+        function downloadCSV() {
+            const reservations = JSON.parse(localStorage.getItem('reservations')) || [];
+            if (reservations.length === 0) {
+                alert('다운로드할 데이터가 없습니다.');
+                return;
+            }
+
+            // CSV 헤더 (한글 깨짐 방지 BOM 추가)
+            let csvContent = "data:text/csv;charset=utf-8,\uFEFF";
+            csvContent += "예약 날짜,예약 시간,이름/회사명,연락처,관심 분야,문의 내용,접수일시\n";
+
+            reservations.sort((a, b) => b.id - a.id).forEach(r => {
+                const interest = interestMap[r.interest] || r.interest;
+                const memo = r.memo ? `"${r.memo.replace(/"/g, '""')}"` : "";
+                const row = `${r.date},${r.time},"${r.name}","${r.phone}","${interest}",${memo},"${r.timestamp}"`;
+                csvContent += row + "\n";
+            });
+
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", `예약자명단_${new Date().toISOString().slice(0, 10)}.csv`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // 초기 로드
+        loadReservations();
+    </script>
+</body>
+
+</html>

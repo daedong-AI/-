@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>초록들판항공 | 농업용 드론 전문 솔루션</title>
-    
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
 
@@ -20,81 +21,260 @@
             --border: #1e293b;
         }
 
-        * { box-sizing: border-box; font-family: 'Pretendard', sans-serif; }
-        html { scroll-behavior: smooth; } /* 부드러운 스크롤 효과 */
-        body { margin:0; background: var(--bg-dark); color: var(--text-white); line-height: 1.6; }
+        * {
+            box-sizing: border-box;
+            font-family: 'Pretendard', sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* 부드러운 스크롤 효과 */
+        body {
+            margin: 0;
+            background: var(--bg-dark);
+            color: var(--text-white);
+            line-height: 1.6;
+        }
 
         /* 네비게이션 바 */
-        nav { 
-            position: fixed; top: 0; width: 100%; z-index: 1000; 
-            background: rgba(2, 6, 23, 0.9); backdrop-filter: blur(10px);
-            padding: 15px 5%; border-bottom: 1px solid var(--border);
-            display: flex; justify-content: space-between; align-items: center;
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(2, 6, 23, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 15px 5%;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
-        nav .logo { font-size: 1.4rem; font-weight: 800; color: var(--primary); text-decoration: none; }
-        nav .menu { display: flex; gap: 20px; }
-        nav .menu a { color: var(--text-gray); text-decoration: none; font-size: 0.95rem; font-weight: 500; transition: 0.3s; }
-        nav .menu a:hover { color: var(--primary); }
+
+        nav .logo {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        nav .menu {
+            display: flex;
+            gap: 20px;
+        }
+
+        nav .menu a {
+            color: var(--text-gray);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+
+        nav .menu a:hover {
+            color: var(--primary);
+        }
 
         /* 섹션 공통 스타일 */
-        section { padding: 100px 5%; max-width: 1200px; margin: auto; }
-        .section-header { text-align: center; margin-bottom: 60px; }
-        .section-header h2 { font-size: 2.5rem; margin-bottom: 15px; }
-        .section-header p { color: var(--text-gray); font-size: 1.1rem; }
+        section {
+            padding: 100px 5%;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .section-header p {
+            color: var(--text-gray);
+            font-size: 1.1rem;
+        }
 
         /* 홈 (Hero) 섹션 */
-        #home { 
-            height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center;
-            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1508614589041-895b88991e3e?auto=format&fit=crop&q=80&w=1920') center/cover;
+        #home {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.8)), url('https://images.unsplash.com/photo-1508614589041-895b88991e3e?auto=format&fit=crop&q=80&w=1920') center/cover;
             text-align: center;
         }
-        #home h1 { font-size: clamp(2.5rem, 8vw, 4rem); margin-bottom: 20px; }
-        #home .highlight { color: var(--primary); }
-        
-        /* 버튼 스타일 */
-        .btn { 
-            background: var(--primary); color: white; padding: 15px 35px; border-radius: 10px;
-            text-decoration: none; font-weight: bold; transition: 0.3s; display: inline-block;
+
+        #home h1 {
+            font-size: clamp(2.5rem, 8vw, 4rem);
+            margin-bottom: 20px;
         }
-        .btn:hover { background: var(--primary-dark); transform: translateY(-3px); }
+
+        #home .highlight {
+            color: var(--primary);
+        }
+
+        /* 버튼 스타일 */
+        .btn {
+            background: var(--primary);
+            color: white;
+            padding: 15px 35px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.3s;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-3px);
+        }
 
         /* 회사소개 (About) 섹션 */
-        .about-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
-        .about-box { background: var(--card-bg); padding: 40px; border-radius: 20px; border: 1px solid var(--border); text-align: center; }
-        .about-box i { font-size: 2.5rem; color: var(--primary); margin-bottom: 20px; }
+        .about-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .about-box {
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .about-box i {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
 
         /* 스토어 (Shop) 섹션 */
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
-        .card { background: var(--card-bg); border-radius: 24px; overflow: hidden; border: 1px solid var(--border); transition: 0.4s; }
-        .card:hover { transform: translateY(-10px); border-color: var(--primary); }
-        .card-img { height: 200px; background: #1e293b; display: flex; align-items: center; justify-content: center; font-size: 4rem; color: var(--primary); opacity: 0.4; }
-        .card-body { padding: 30px; text-align: center; }
-        .price { color: var(--primary); font-size: 1.5rem; font-weight: 800; margin: 15px 0; }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 24px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            transition: 0.4s;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary);
+        }
+
+        .card-img {
+            height: 200px;
+            background: #1e293b;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: var(--primary);
+            opacity: 0.4;
+        }
+
+        .card-body {
+            padding: 30px;
+            text-align: center;
+        }
+
+        .price {
+            color: var(--primary);
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin: 15px 0;
+        }
 
         /* 오시는 길 (Contact) 섹션 */
-        .contact-content { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; align-items: center; }
-        .map-box { background: #1e293b; border-radius: 20px; height: 300px; display: flex; align-items: center; justify-content: center; border: 1px dashed var(--text-gray); }
+        .contact-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            align-items: center;
+        }
+
+        .map-box {
+            background: #1e293b;
+            border-radius: 20px;
+            height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px dashed var(--text-gray);
+        }
 
         /* 푸터 */
-        footer { padding: 50px 5%; background: #020617; text-align: center; border-top: 1px solid var(--border); color: var(--text-gray); }
+        footer {
+            padding: 50px 5%;
+            background: #020617;
+            text-align: center;
+            border-top: 1px solid var(--border);
+            color: var(--text-gray);
+        }
 
         /* 반응형 */
+        .hamburger {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-white);
+        }
+
         @media (max-width: 768px) {
-            nav .menu { display: none; } /* 모바일에서는 메뉴 숨김 (필요시 햄버거 메뉴 구현) */
-            #home h1 { font-size: 2.5rem; }
+            .hamburger {
+                display: block;
+            }
+
+            nav .menu {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: rgba(2, 6, 23, 0.95);
+                padding: 20px;
+                border-bottom: 1px solid var(--border);
+            }
+
+            nav .menu.active {
+                display: flex;
+            }
+
+            #home h1 {
+                font-size: 2.5rem;
+            }
         }
     </style>
 </head>
+
 <body>
 
     <nav>
         <a href="#home" class="logo">🚁 초록들판항공</a>
+        <div class="hamburger"><i class="fas fa-bars"></i></div>
         <div class="menu">
             <a href="#home">홈</a>
             <a href="#about">회사소개</a>
             <a href="#shop">스토어</a>
             <a href="#contact">오시는길</a>
-            <a href="consultation.html" style="color: var(--primary); font-weight: bold;"><i class="far fa-calendar-alt"></i> 상담예약</a>
+            <a href="consultation.html" style="color: var(--primary); font-weight: bold;"><i
+                    class="far fa-calendar-alt"></i> 상담예약</a>
         </div>
     </nav>
 
@@ -109,7 +289,7 @@
     <section id="about">
         <div class="section-header">
             <h2>회사 소개</h2>
-            <p>초록들판항공이 드론 분야에서 신뢰받는 이유입니다.</p>
+            <p>농업용드론 조립/판매/수리.</p>
         </div>
         <div class="about-grid">
             <div class="about-box">
@@ -120,7 +300,7 @@
             <div class="about-box">
                 <i class="fas fa-handshake"></i>
                 <h3>철저한 사후 관리</h3>
-                <p>기체가 고장나면 농사도 멈춥니다. 24시간 내 신속 A/S를 보장합니다.</p>
+                <p>기체가 고장나면 바로 출동하여 수리해드리는 신속한 A/S를 보장합니다.</p>
             </div>
             <div class="about-box">
                 <i class="fas fa-users"></i>
@@ -136,7 +316,7 @@
             <p>초록들판항공의 엄선된 제품 라인업</p>
         </div>
         <div class="grid" id="productList">
-            </div>
+        </div>
     </section>
 
     <section id="contact">
@@ -147,8 +327,9 @@
         <div class="contact-content">
             <div class="map-box">
                 <div style="text-align: center;">
-                    <i class="fas fa-map-marker-alt" style="font-size: 2.5rem; color: var(--primary); margin-bottom: 15px;"></i>
-                    <p>경상북도 기술 혁신 센터 내 102호<br>(주소 정보 입력 대기 중)</p>
+                    <i class="fas fa-map-marker-alt"
+                        style="font-size: 2.5rem; color: var(--primary); margin-bottom: 15px;"></i>
+                    <p>인천광역시 강화군 하점면 창후로228번길 16-5, 1동 1층 1호(초록들판항공)</p>
                 </div>
             </div>
             <div class="info-box">
@@ -157,7 +338,9 @@
                 <p><i class="fas fa-envelope" style="margin-right: 10px;"></i> support@chorok.com</p>
                 <p><i class="fas fa-clock" style="margin-right: 10px;"></i> 평일 09:00 - 18:00 (주말 예약제)</p>
                 <div style="display: flex; gap: 10px; margin-top: 20px;">
-                    <a href="tel:01050496022" class="btn" style="flex: 1; text-align: center; background: transparent; border: 1px solid var(--primary); color: var(--primary);">전화 문의</a>
+                    <button class="btn open-modal-btn"
+                        style="flex: 1; text-align: center; background: transparent; border: 1px solid var(--primary); color: var(--primary); cursor: pointer; font-size: 1rem;">전화
+                        문의</button>
                     <a href="consultation.html" class="btn" style="flex: 1; text-align: center;">온라인 상담 예약</a>
                 </div>
             </div>
@@ -165,11 +348,54 @@
     </section>
 
     <footer>
-        <p>© 2026 초록들판항공 | 경상북도 기술 혁신 기업</p>
-        <p style="font-size: 0.8rem; margin-top: 10px; color: #475569;">사업자등록번호: 000-00-00000 | 대표자: 초록인</p>
+        <p>© 2026 초록들판항공 | 농업용 드론 전문 솔루션</p>
+        <p style="font-size: 0.8rem; margin-top: 10px; color: #475569;">사업자등록번호: 476-37-01371 | 대표자: 김선교, 김현우</p>
     </footer>
 
+    <!-- 전화 상담 모달 -->
+    <div class="modal-overlay" id="phoneModal">
+        <div class="modal">
+            <i class="fas fa-times modal-close" id="closeModal"></i>
+            <i class="fas fa-headset" style="font-size: 3rem; color: var(--primary); margin-bottom: 15px;"></i>
+            <h3>전화 상담 안내</h3>
+            <p>궁금한 점이 있으신가요?<br>친절하게 상담해 드리겠습니다.</p>
+            <span class="phone-number">010-5049-6022</span>
+            <p style="font-size: 0.9rem;"><i class="fas fa-clock" style="margin-right: 10px;"></i>평일 09:00 - 18:00 (주말
+                예약제)</p>
+            <a href="tel:01050496022" class="btn" style="width: 100%; display: block; margin-top: 20px;">바로 전화걸기</a>
+        </div>
+    </div>
+
     <script>
+        // 모달 제어 로직
+        const phoneModal = document.getElementById('phoneModal');
+        const openModalBtns = document.querySelectorAll('.open-modal-btn');
+        const closeModal = document.getElementById('closeModal');
+
+        openModalBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                phoneModal.classList.add('active');
+            });
+        });
+
+        closeModal.addEventListener('click', () => {
+            phoneModal.classList.remove('active');
+        });
+
+        // 모달 외부 클릭 시 닫기
+        phoneModal.addEventListener('click', (e) => {
+            if (e.target === phoneModal) {
+                phoneModal.classList.remove('active');
+            }
+        });
+
+        const hamburger = document.querySelector('.hamburger');
+        const menu = document.querySelector('.menu');
+        hamburger.addEventListener('click', () => {
+            menu.classList.toggle('active');
+        });
+
         const products = [
             { name: '방제형 드론 Pro 16L', price: '₩3,500,000', icon: 'fa-shuttle-space' },
             { name: 'DIY 드론 교육 키트', price: '₩450,000', icon: 'fa-screwdriver-wrench' },
@@ -185,11 +411,12 @@
                     <p class="price">${p.price}</p>
                     <div style="display:flex; gap:10px; justify-content:center;">
                         <a href="consultation.html" class="btn" style="padding: 10px 15px; font-size: 0.9rem; background:transparent; border:1px solid var(--primary); color:var(--primary);">상담하기</a>
-                        <a href="payment.html?name=\${encodeURIComponent(p.name)}&price=\${encodeURIComponent(p.price)}" class="btn" style="padding: 10px 15px; font-size: 0.9rem;">구매하기</a>
+                        <a href="payment.html?name=${encodeURIComponent(p.name)}&price=${encodeURIComponent(p.price)}" class="btn" style="padding: 10px 15px; font-size: 0.9rem;">구매하기</a>
                     </div>
                 </div>
             </div>
         `).join('');
     </script>
 </body>
+
 </html>
